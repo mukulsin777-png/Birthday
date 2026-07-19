@@ -1,6 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        .photo-container {
+            text-align: center;
+            margin: 40px auto; 
+            max-width: 400px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .birthday-photo {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .photo-caption {
+            font-family: sans-serif;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            color: #333;
+        }
+    </style>
+</head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday</title>
@@ -285,6 +308,14 @@ const CONFIG = {
   <p class="wish-reveal" id="wishReveal"></p>
 
   <div class="scroll-cue">↓</div>
+</section>
+   <!-- Paste this code between your sections -->
+<section>
+    <div class="photo-container">
+        <!-- Make sure to change 'dad-and-me.jpg' to your exact filename -->
+        <img src="dad-and-me.jpg" alt="Me and my dad" class="birthday-photo">
+        <p class="photo-caption">Happy Birthday, Dad! ❤️</p>
+    </div>
 </section>
 
 <section id="prompts">
