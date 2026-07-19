@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday</title>
+<style>
+/* ============================================================
+   EDIT THESE — the only lines you need to touch for content
+   ============================================================ */
+</style>
+</head>
+<body>
+
+<!-- =============================================================
+     CONFIG — change the text below to personalize the page.
+     Nothing else in this file needs to be touched to customize it.
+     ============================================================= -->
+<script>
+const CONFIG = {
+  heroTitle: "Happy Birthday!",
+  yourSignature: "— Your Beloved Son",
+  wishMessage: "May all your dreams come true this year.",
+  prompts: [
+    "Today is your day.",
+    "Wishing you a day filled with love and happiness.",
+    "happy birthday to the most amazing father in the world.",
+    "You are the best person I know, and I am so lucky to have you in my life.",
+    "Happy Birthday! May your day be filled with laughter, joy, and all the things that make you happy.",
+    "Here's to another year of amazing adventures and unforgettable memories.",
+  ],
+  balloonWords: ["Happiest", "Birthday","Papa ji 🎉"],
+  finalMessage: "With love from Son."
+};
+</script>
+
+<style>
+  :root{
+    --midnight:#1a1130;
+    --plum:#2b1b3d;
+    --gold:#e8b86d;
+    --rose:#f2a6b3;
+    --cream:#f7f1e8;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+  }
+
+  @font-face{ /* system fallback stack acts as the type system, no external font risk of failing to load */ }
+
+  body{
+    font-family: 'Quicksand', 'Segoe UI', sans-serif;
+    background: var(--midnight);
+    color: var(--cream);
+    overflow-x:hidden;
+  }
+  .display{
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  }
+
+  /* ---------- Starfield ---------- */
+  #stars{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+  }
+  .star{
+    position:absolute; width:2px; height:2px; background:var(--cream);
+    border-radius:50%; opacity:.6;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle{ 0%,100%{opacity:.15;} 50%{opacity:.9;} }
+
+  section{
+    position:relative; z-index:1;
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding: 6vh 6vw;
+    text-align:center;
+  }
+
+  /* ---------- Hero / Cake ---------- */
+  #hero h1{
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-style:italic;
+    color: var(--gold);
+    margin-bottom: .5rem;
+    letter-spacing: 0.5px;
+  }
+  #hero p.sub{
+    font-size: 1.05rem;
+    color: var(--rose);
+    margin-bottom: 3rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: .8rem;
+  }
+
+  .cake{
+    position:relative;
+    display:flex; flex-direction:column; align-items:center;
+    margin-bottom: 2.5rem;
+  }
+  .candles{
+    display:flex; gap: 18px; margin-bottom: -6px;
+  }
+  .candle{
+    width: 8px; height: 34px;
+    background: linear-gradient(var(--rose), #d88a9a);
+    border-radius: 2px;
+    position:relative;
+    cursor:pointer;
+  }
+  .flame{
+    position:absolute; top:-16px; left:50%; transform:translateX(-50%);
+    width:10px; height:16px;
+    background: radial-gradient(circle at 50% 70%, #fff5c2, var(--gold) 60%, #d9741f 100%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: flicker 1.4s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+  @keyframes flicker{
+    0%,100%{ transform: translateX(-50%) scale(1) rotate(-2deg); }
+    50%{ transform: translateX(-50%) scale(1.08) rotate(2deg); }
+  }
+  .candle.out .flame{ display:none; }
+  .candle.out{ opacity:.6; }
+  .smoke{
+    position:absolute; top:-20px; left:50%; transform:translateX(-50%);
+    width:4px; height:4px; background:#ccc; border-radius:50%;
+    opacity:0; pointer-events:none;
+  }
+  .candle.out .smoke{ animation: smokeRise 1.2s ease-out forwards; }
+  @keyframes smokeRise{
+    0%{ opacity:.6; transform:translate(-50%,0) scale(1); }
+    100%{ opacity:0; transform:translate(-50%,-40px) scale(3); }
+  }
+
+  .tier{
+    background: linear-gradient(180deg, var(--rose), #d88a9a);
+    border-radius: 6px 6px 0 0;
+  }
+  .tier1{ width:220px; height:60px; }
+  .tier2{ width:270px; height:50px; }
+  .plate{
+    width:310px; height:14px; border-radius:50%;
+    background: var(--gold); margin-top:2px;
+    box-shadow: 0 0 30px rgba(232,184,109,.25);
+  }
+
+  .hint{
+    font-size:.85rem; color:#c9b8de; opacity:.8;
+  }
+  .wish-reveal{
+    max-width: 520px;
+    font-size: 1.2rem;
+    color: var(--cream);
+    margin-top: 2rem;
+    min-height: 2.4rem;
+    font-style:italic;
+  }
+  .scroll-cue{
+    position:absolute; bottom: 4vh; left:50%; transform:translateX(-50%);
+    font-size:1.4rem; color: var(--rose); opacity:.7;
+    animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob{ 0%,100%{transform:translate(-50%,0);} 50%{transform:translate(-50%,8px);} }
+
+  /* ---------- Reasons ---------- */
+  #prompts h2, #balloons h2{
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    color: var(--gold);
+    margin-bottom: 2.5rem;
+  }
+  .cards{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.4rem;
+    max-width: 1000px;
+    width:100%;
+  }
+  .card{
+    perspective: 1000px;
+    height: 170px;
+  }
+  .card-inner{
+    position:relative; width:100%; height:100%;
+    transition: transform .6s cubic-bezier(.2,.8,.2,1);
+    transform-style: preserve-3d;
+    cursor:pointer;
+  }
+  .card.flipped .card-inner{ transform: rotateY(180deg); }
+  .card-face{
+    position:absolute; inset:0;
+    backface-visibility:hidden;
+    border-radius: 14px;
+    display:flex; align-items:center; justify-content:center;
+    padding: 1.2rem;
+    font-size: .98rem;
+    line-height:1.4;
+  }
+  .card-front{
+    background: linear-gradient(135deg, var(--plum), #3a2450);
+    border: 1px solid rgba(232,184,109,.3);
+    color: var(--rose);
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-size:1.1rem;
+  }
+  .card-back{
+    background: linear-gradient(135deg, var(--rose), #d88a9a);
+    color: var(--midnight);
+    transform: rotateY(180deg);
+    font-weight:600;
+  }
+
+  /* ---------- Balloons ---------- */
+  #balloons{ overflow:hidden; }
+  .balloon-field{
+    position:relative; width:100%; max-width:900px; height:360px;
+  }
+  .balloon{
+    position:absolute; bottom:0;
+    width: 70px; height: 86px;
+    border-radius: 50% 50% 48% 48%;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    color: var(--midnight); font-weight:700; font-size:.85rem;
+    animation: float 5s ease-in-out infinite;
+    box-shadow: inset -8px -8px 16px rgba(0,0,0,.15);
+  }
+  .balloon::after{
+    content:''; position:absolute; bottom:-22px; left:50%; width:1px; height:22px;
+    background: rgba(247,241,232,.4);
+  }
+  @keyframes float{ 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(-16px);} }
+  .balloon.popped{ animation:none; transform: scale(0); opacity:0; transition: all .25s ease; pointer-events:none; }
+
+  .final-message{
+    margin-top: 2.5rem;
+    font-size: clamp(1.2rem, 3vw, 1.7rem);
+    font-family:'Playfair Display', serif;
+    font-style: italic;
+    color: var(--gold);
+    max-width: 600px;
+    min-height: 3rem;
+  }
+  footer{
+    padding: 3rem 1rem 4rem;
+    text-align:center;
+    font-size:.85rem;
+    color:#8a7aa0;
+    position:relative; z-index:1;
+  }
+
+  /* confetti */
+  .confetti-piece{
+    position:fixed; top:-10px; z-index:50;
+    width:8px; height:14px;
+    opacity:.9;
+    pointer-events:none;
+    animation: fall linear forwards;
+  }
+  @keyframes fall{
+    to{ transform: translateY(105vh) rotate(540deg); opacity:0; }
+  }
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+
+<section id="hero">
+  <h1 class="display" id="heroTitle">Happy Birthday</h1>
+  <p class="sub" id="heroSub">make a wish</p>
+
+  <div class="cake">
+    <div class="candles" id="candles"></div>
+    <div class="tier tier1"></div>
+    <div class="tier tier2"></div>
+    <div class="plate"></div>
+  </div>
+
+  <p class="hint" id="hint">click each candle to blow it out</p>
+  <p class="wish-reveal" id="wishReveal"></p>
+
+  <div class="scroll-cue">↓</div>
+</section>
+
+<section id="prompts">
+  <h2 class="display">Tap for a little something</h2>
+  <div class="cards" id="cardGrid"></div>
+</section>
+
+<section id="balloons">
+  <h2 class="display">One more thing</h2>
+  <div class="balloon-field" id="balloonField"></div>
+  <p class="final-message" id="finalMessage"></p>
+</section>
+
+<footer id="footerSig"></footer>
+
+<script>
+/* ---------- Populate personalized text ---------- */
+document.getElementById('heroTitle').textContent = CONFIG.heroTitle;
+document.getElementById('footerSig').textContent = CONFIG.yourSignature;
+
+/* ---------- Starfield ---------- */
+const starsEl = document.getElementById('stars');
+for(let i=0;i<80;i++){
+  const s = document.createElement('div');
+  s.className='star';
+  s.style.left = Math.random()*100+'vw';
+  s.style.top = Math.random()*100+'vh';
+  s.style.animationDelay = (Math.random()*3)+'s';
+  starsEl.appendChild(s);
+}
+
+/* ---------- Candles ---------- */
+const NUM_CANDLES = 5;
+const candlesEl = document.getElementById('candles');
+let litCount = NUM_CANDLES;
+for(let i=0;i<NUM_CANDLES;i++){
+  const c = document.createElement('div');
+  c.className='candle';
+  c.innerHTML = `<div class="flame"></div><div class="smoke"></div>`;
+  c.addEventListener('click', () => {
+    if(c.classList.contains('out')) return;
+    c.classList.add('out');
+    litCount--;
+    if(litCount === 0){
+      document.getElementById('hint').style.opacity = 0;
+      typewriter(document.getElementById('wishReveal'), CONFIG.wishMessage);
+      burstConfetti(40);
+    }
+  });
+  candlesEl.appendChild(c);
+}
+
+/* ---------- Typewriter helper ---------- */
+function typewriter(el, text, speed=38){
+  el.textContent='';
+  let i=0;
+  const t = setInterval(()=>{
+    el.textContent += text[i];
+    i++;
+    if(i>=text.length) clearInterval(t);
+  }, speed);
+}
+
+/* ---------- Confetti ---------- */
+const confettiColors = ['#e8b86d','#f2a6b3','#f7f1e8','#c9b8de'];
+function burstConfetti(count=30){
+  for(let i=0;i<count;i++){
+    const p = document.createElement('div');
+    p.className='confetti-piece';
+    p.style.left = Math.random()*100+'vw';
+    p.style.background = confettiColors[Math.floor(Math.random()*confettiColors.length)];
+    p.style.animationDuration = (2.5 + Math.random()*2)+'s';
+    p.style.animationDelay = (Math.random()*0.4)+'s';
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(), 5000);
+  }
+}
+
+/* ---------- Interactive prompt cards ---------- */
+const cardGrid = document.getElementById('cardGrid');
+CONFIG.prompts.forEach(prompt=>{
+  const card = document.createElement('div');
+  card.className='card';
+  card.innerHTML = `
+    <div class="card-inner">
+      <div class="card-face card-front">tap to reveal</div>
+      <div class="card-face card-back">${prompt}</div>
+    </div>`;
+  card.addEventListener('click', ()=> card.classList.toggle('flipped'));
+  cardGrid.appendChild(card);
+});
+
+/* ---------- Balloons ---------- */
+const balloonColors = ['#e8b86d','#f2a6b3','#c9b8de','#f7f1e8'];
+const field = document.getElementById('balloonField');
+const fieldWidth = 900;
+let poppedCount = 0;
+CONFIG.balloonWords.forEach((word, idx)=>{
+  const b = document.createElement('div');
+  b.className='balloon';
+  b.style.background = balloonColors[idx % balloonColors.length];
+  b.style.left = (idx * (100/CONFIG.balloonWords.length)) + '%';
+  b.style.animationDelay = (idx*0.3)+'s';
+  b.dataset.word = word;
+  b.addEventListener('click', ()=>{
+    if(b.classList.contains('popped')) return;
+    b.classList.add('popped');
+    poppedCount++;
+    burstConfetti(10);
+    const msgEl = document.getElementById('finalMessage');
+    const revealed = CONFIG.balloonWords.slice(0, poppedCount).join(' ');
+    msgEl.textContent = revealed;
+    if(poppedCount === CONFIG.balloonWords.length){
+      setTimeout(()=>{
+        typewriter(msgEl, CONFIG.finalMessage, 30);
+        burstConfetti(80);
+      }, 500);
+    }
+  });
+  field.appendChild(b);
+});
+</script>
+
+</body>
+</html>
